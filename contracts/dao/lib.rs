@@ -9,16 +9,26 @@ pub mod dao {
         Encode,
     };
 
+    const ONE_MINUTE: u64 = 60;
+
     #[derive(Encode, Decode)]
     #[cfg_attr(feature = "std", derive(Debug, PartialEq, Eq, scale_info::TypeInfo))]
     pub enum VoteType {
-        // to implement
+        Against,
+        For,
     }
 
     #[derive(Copy, Clone, Debug, PartialEq, Eq, Encode, Decode)]
     #[cfg_attr(feature = "std", derive(scale_info::TypeInfo))]
     pub enum GovernorError {
-        // to implement
+        AmountShouldNotBeZero,
+        DurationError,
+        ProposalNotFound,
+        ProposalAlreadyExecuted,
+        VotePeriodEnded,
+        AlreadyVoted,
+        QuorumNotReached,
+        ProposalNotAccepted,
     }
 
     #[derive(Encode, Decode)]
@@ -33,7 +43,11 @@ pub mod dao {
         )
     )]
     pub struct Proposal {
-        // to implement
+        to: AccountId,
+        vote_start: u64,
+        vote_end: u64,
+        executed: bool,
+        amount: Balance,
     }
 
     #[derive(Encode, Decode, Default)]
@@ -48,8 +62,11 @@ pub mod dao {
         )
     )]
     pub struct ProposalVote {
-        // to implement
+        for_votes: u32,
+        against_vote: u32,
     }
+
+    pub type ProposalId = u32;
 
     #[ink(storage)]
     pub struct Governor {
@@ -90,6 +107,14 @@ pub mod dao {
         #[ink(message)]
         pub fn now(&self) -> u64 {
             self.env().block_timestamp()
+        }
+
+        pub fn get_proposal(&self, proposal_id: ProposalId) -> Result<Proposal, GovernorError> {
+            unimplemented!()
+        }
+
+        pub fn next_proposal_id(&self) -> ProposalId {
+            unimplemented!()
         }
     }
 
