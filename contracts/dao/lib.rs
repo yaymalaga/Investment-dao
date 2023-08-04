@@ -161,7 +161,7 @@ pub mod dao {
             // caller balance in relation to total supply)
             let total_supply = self.total_supply();
             let caller_balance = self.balance_of(self.env().caller());
-            let weight = ((caller_balance as f64 / total_supply as f64) * 100.) as u8;
+            let weight: u8 = (caller_balance * 100 / total_supply) as u8;
 
             let mut proposal_votes =
                 self.proposal_votes.get(proposal_id).unwrap_or_default();
