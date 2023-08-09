@@ -316,7 +316,8 @@ pub mod dao {
             );
             assert_eq!(governor.next_proposal_id(), 1);
 
-            let result: Result<(), GovernorError> = governor.propose(accounts.django, 200, 2);
+            let result: Result<(), GovernorError> =
+                governor.propose(accounts.django, 200, 2);
             assert_eq!(result, Ok(()));
             let proposal = governor.get_proposal(1).unwrap();
             let now = governor.now();
